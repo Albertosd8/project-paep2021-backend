@@ -3,9 +3,9 @@ const Product = require('../DB/models/Product_model');
 
 // Obtain products
 router.get('/', async (req,res)=>{
-    let skip = Number(req.query.skip) || 0;
-    let limit = Number(req.query.limit) || 0;
-    let docs = await Product.ObtainProducts(skip,limit);
+    const skip = Number(req.query.skip) || 0;
+    const limit = Number(req.query.limit) || 0;
+    const docs = await Product.ObtainProducts(skip,limit);
     res.json(docs);
 });
 
@@ -21,13 +21,11 @@ router.post('/',validate_product, async (req,res)=>{
     if(doc){
         res.status(400).send({error:"Producto ya existente"})
     }
-    else{
-        try{
-            let prod = await Product.createProduct(req.body);
-            res.status(201).send(prod)}
-        catch(err){ 
-            res.status(400).send({error:err});
-        }
+    try{
+        let prod = await Product.createProduct(req.body);
+        res.status(201).send(prod)}
+    catch(err){ 
+        res.status(400).send({error:err});
     }
 })
 
@@ -68,7 +66,6 @@ router.patch('/:product_id/optional_images', async(req,res)=>{
 router.delete('/:product_id',async (req,res)=>{
     let doc = await Product.ObtainProductById(req.params.product_id);
     if(doc){ 
-        console.log(doc);
         await Product.deleteProduct(req.params.product_id);
         res.status(200).send('Producto eliminado!'+ doc);
     }else{

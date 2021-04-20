@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-require('dotenv').config();
 const DBuser = process.env.MONGODB_USER;
 const DBuser_p = process.env.MONGODB_PASSWORD;
 const DBname = "project_paep2021";
