@@ -1,4 +1,4 @@
-const mongoose = require('../mongoDB_connect');
+const mongoose = require('../mongodb_connect');
 const { mongo } = require('mongoose');
 
 let productSchema = mongoose.Schema({
