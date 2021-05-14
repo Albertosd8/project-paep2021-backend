@@ -43,8 +43,8 @@ let productSchema = mongoose.Schema({
     optional_image2:{
         type:String
     },
-    creator_id:{
-        type: Number,
+    name_artisan:{
+        type: String,
         required:true
     },
     tags:[{type:String}]
@@ -54,7 +54,7 @@ let productSchema = mongoose.Schema({
 productSchema.statics.ObtainProducts = function(skip, limit){
     return Product.find({},{_id:0,product_id:1, product_name:1, price:1, quantity:1,
         description:1, color:1, weight:1, principal_img:1, optional_image1:1, optional_image2:1,
-        creator_id:1, tags:1})
+        name_artisan:1, tags:1})
                 .skip(skip)
                 .limit(limit);
 }

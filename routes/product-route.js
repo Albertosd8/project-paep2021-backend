@@ -1,5 +1,20 @@
 const router = require('express').Router();
 const Product = require('../DB/models/Product_model');
+const Joi = require('joi');
+
+const schema = Joi.object({
+    product_name: Joi.string().required(), 
+    price: Joi.number().min(0.00).required(), 
+    quantity: Joi.number().min(0.00).required(), 
+    description: Joi.string().required(), 
+    weight: Joi.number().min(0.00).required(),
+    color: Joi.string(),
+    principal_img: Joi.string().required(),
+    optional_image1: Joi.string(),
+    optional_image2: Joi.string(),
+    name_artisan:Joi.string(),
+    tags: Joi.array()
+});
 
 // Obtain products
 router.get('/', async (req,res)=>{
@@ -16,27 +31,36 @@ router.get('/:product_id', async (req,res)=>{
 })
 
 //Create new Product CHECK CHECK
-router.post('/',validate_product, async (req,res)=>{ 
+router.post('/', async (req,res, next)=>{ 
+    const result = schema.validate(req.body);
+    if (result.error) return next(result.error.details[0].message);
+
     let doc = await Product.ObtainProductByName(req.body.product_name); //check
     if(doc){
-        res.status(400).send({error:"Producto ya existente"})
-    }
+        res.status(400).send(JSON.stringify("Producto ya existente"));
+        return;
+    };
     try{
         let prod = await Product.createProduct(req.body);
         res.status(201).send(prod)}
     catch(err){ 
-        res.status(400).send({error:err});
+        res.status(400).send(JSON.stringify("error"));
     }
 })
 
 //Update Product
-router.put('/:product_id',validate_product, async(req,res)=>{
+router.put('/:product_id', async(req,res,next)=>{
+    const result = schema.validate(req.body);
+    if (result.error) return next(result.error.details[0].message);
+    
     let doc= await Product.ObtainProductById(req.params.product_id);
     if(doc){
         await doc.UpdateProduct(req.body);
-        res.send("Producto actualizado");
-    }else{
-            res.status(404).send({Error: "No se encontro producto"})
+        res.send(JSON.stringify("Producto actualizado"));
+        return;
+    }
+    else{
+        res.status(404).send({Error: "No se encontro producto"})
     }
 })
 
@@ -45,7 +69,7 @@ router.patch('/:product_id', async(req,res)=>{
     let doc= await Product.ObtainProductById(req.params.product_id);
     if(doc){
         await doc.UpdatePrincipalImage(req.body);
-        res.send("Imagen de producto actualizado");
+        res.send(JSON.stringify("Imagen de producto actualizado"));
     }else{
         res.status(404).send({Error: "No se pudo actualizar la imagen principal"})
     }
@@ -56,7 +80,7 @@ router.patch('/:product_id/optional_images', async(req,res)=>{
     let doc= await Product.ObtainProductById(req.params.product_id);
     if(doc){
         await doc.UpdateImages(req.body);
-        res.send("Imagen de producto actualizado");
+        res.send(JSON.stringify("Imagen de producto actualizado"));
     }else{
         res.status(404).send({Error: "No se pudo actualizar la imagen principal"})
     }
@@ -67,20 +91,11 @@ router.delete('/:product_id',async (req,res)=>{
     let doc = await Product.ObtainProductById(req.params.product_id);
     if(doc){ 
         await Product.deleteProduct(req.params.product_id);
-        res.status(200).send('Producto eliminado!'+ doc);
+        res.status(200).send(JSON.stringify('Producto eliminado'));
     }else{
         res.status(404).send({Error: "No se encontro producto"});
     } 
 })
-
-function validate_product(req,res,next){
-    let {product_name, price, quantity, description, weight, color, principal_img} = req.body;
-    if(product_name && price && quantity && description && weight && color && principal_img){
-        next();
-        return;
-    }
-    res.status(400).send({error:"Falta información"})
-}
 
 
 module.exports = router;

@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const User = require('../DB/models/User_model');
 const Joi = require('joi');
+const { json } = require('express');
 
 const schema = Joi.object({
     name: Joi.string().required(), 
@@ -32,14 +33,15 @@ router.post('/', async (req,res, next)=>{
     if (result.error) return next(result.error.details[0].message);
 
     let doc = await User.ObtainUserByEmail(req.body.email);
-    if(doc){
-        res.status(400).send({error:"Usuario ya existente en la base de datos"})
-    }
+    if(doc){ 
+        res.status(400).send(JSON.stringify("Usuario ya existente en la base de datos"))
+        return;
+    };
     try{
         let usr = await User.createUser(req.body);
         res.status(201).send(usr);}
     catch(err){ 
-        res.status(401).send({error:err})
+        res.status(401).send(JSON.stringify("Ha ocurrido un error intenta de nuevo"))
     }
 })
 
@@ -48,19 +50,15 @@ router.put('/:email', async(req,res, next)=>{
     const result = schema.validate(req.body);
     if (result.error) return next(result.error.details[0].message);
 
-    if(req.params.email == req.body.email){
-        let doc;
-        try{
-            doc = await User.ObtainUserByEmail(req.params.email);
-            if(doc){
-                await doc.updateUser(req.body);
-                res.send("Usuario actualizado");
-            }
-        }catch(err){
-                res.status(404).send({Error: "No se encontro usuario"})
+    let doc;
+    try{
+        doc = await User.ObtainUserByEmail(req.params.email);
+        if(doc){
+            await doc.updateUser(req.body);
+            res.status(200).send(JSON.stringify("Usuario actualizado"));
         }
-    }else{
-        res.status(400).send({error: "no se puede cambiar el correo"})
+    }catch(err){
+            res.status(404).send({Error: "No se encontro usuario"})
     }
 })
 
@@ -73,7 +71,7 @@ router.delete('/:email',async (req,res)=>{
             doc = await User.ObtainUserByEmail(req.params.email); 
             if(doc){
                 await User.deleteUser(req.params.email);
-                res.send('user deleted: '+ doc);
+                res.status(200).send(JSON.stringify('user deleted: '+ doc));
             }else{
                 throw "err";
             }
