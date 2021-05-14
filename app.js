@@ -5,7 +5,6 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 //MIDDDLEWARES
-//
 app.use(express.json());
 app.use(express.static(__dirname+"/public"));
 app.use(cors());
