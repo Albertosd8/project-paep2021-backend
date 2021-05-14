@@ -1,4 +1,3 @@
-'use strict'
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -6,11 +5,9 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 //MIDDDLEWARES
-//
 app.use(express.json());
-app.use(express.static(__dirname+"/public"));
-app.use(cors());
-
+app.use(express.static(__dinarme+"/public"));
+app.use(cors())
 //Import routes
 const userRoute = require('./routes/user-route');
 const productRoute = require('./routes/product-route');
