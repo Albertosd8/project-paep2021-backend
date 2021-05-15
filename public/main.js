@@ -151,7 +151,7 @@ class UserProfileComponent {
         this.router.navigate(['field-component']);
     }
     ngOnInit() {
-        const url = 'http://localhost:3000/users/' + this.email;
+        const url = '/users/' + this.email;
         this.http.get(url).subscribe((user) => {
             this.name = Object.values(user)[2];
             this.lastname = Object.values(user)[3];
@@ -298,7 +298,7 @@ class ProductInfoComponent {
     }
     ngOnInit() {
         this.product = '';
-        const url = 'http://localhost:3000/products' + '/' + sessionStorage.getItem("currentItem");
+        const url = '/products' + '/' + sessionStorage.getItem("currentItem");
         this.http.get(url).subscribe((product_data) => {
             this.product = Object.values(product_data);
         });
@@ -490,7 +490,7 @@ class RegisterComponent {
             shopping_history: [],
             rol: this.user_type
         });
-        return this.http.post('http://localhost:3000/users', body, { headers: { 'Content-Type': 'application/json' } }).toPromise().then(data => {
+        return this.http.post('/users', body, { headers: { 'Content-Type': 'application/json' } }).toPromise().then(data => {
             alert('registro exitoso!');
             console.log('registro exitoso' + data);
             this.redirect();
@@ -1199,7 +1199,7 @@ class FieldComponent {
             email: (this.email.value).toLowerCase(),
             password: this.password.value
         });
-        return this.http.post('http://localhost:3000/login', body, { headers: { 'Content-Type': 'application/json' } }).toPromise()
+        return this.http.post('/login', body, { headers: { 'Content-Type': 'application/json' } }).toPromise()
             .then(data => {
             let token = Object.values(data);
             let email = this.email.value.toLowerCase();
@@ -1543,7 +1543,7 @@ class DashboardComponent {
             name_artisan: this.name_artisan.value,
             tags: this.tags
         });
-        return this.http.post('http://localhost:3000/products', body, { headers: { 'Content-Type': 'application/json' } }).toPromise().then(data => {
+        return this.http.post('/products', body, { headers: { 'Content-Type': 'application/json' } }).toPromise().then(data => {
             alert('registro exitoso!');
             console.log('registro exitoso' + data);
             this.redirect();
@@ -2030,7 +2030,7 @@ class UsersComponent {
         this.http = http;
     }
     ngOnInit() {
-        this.http.get('http://localhost:3000/users').subscribe((users) => this.usersArray = users);
+        this.http.get('/users').subscribe((users) => this.usersArray = users);
     }
 }
 UsersComponent.ɵfac = function UsersComponent_Factory(t) { return new (t || UsersComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"])); };
@@ -2229,10 +2229,10 @@ class ProductsAdminComponent {
         this.http = http;
     }
     ngOnInit() {
-        this.http.get('http://localhost:3000/products').subscribe((products) => this.productsArray = products);
+        this.http.get('/products').subscribe((products) => this.productsArray = products);
     }
     deleteProduct(product_id, index) {
-        this.http.delete('http://localhost:3000/products' + '/' + product_id).subscribe(() => {
+        this.http.delete('/products' + '/' + product_id).subscribe(() => {
             this.productsArray.splice(index, 1);
         });
     }
