@@ -1304,7 +1304,7 @@ HomepageComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefine
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](5, "La tienda en linea del artesano");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "p");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](7, "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Blanditiis maiores architecto laudantium explicabo. Commodi alias porro inventore consectetur rem at nobis dolorum tenetur libero numquam vero quisquam, repellat beatae accusantium.");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](7, "Donde podras vender tus artesanias. Blanditiis maiores architecto laudantium explicabo. Commodi alias porro inventore consectetur rem at nobis dolorum tenetur libero numquam vero quisquam, repellat beatae accusantium.");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](8, "div", 4);
@@ -2465,7 +2465,7 @@ class ProductsComponent {
     }
     ngOnInit() {
         this.productsArray = '';
-        this.http.get('http://localhost:3000/products').subscribe((products) => { this.productsArray = Object.values(products); });
+        this.http.get('/products').subscribe((products) => { this.productsArray = Object.values(products); });
         if (!this.pagenumber) {
             this.pagenumber = 1;
         }
@@ -2501,7 +2501,7 @@ class ProductsComponent {
             number_prod = (parseInt(this.pagenumber, 10) + 10).toString();
         }
         const param = { params: { skip: number_prod } };
-        this.http.get('http://localhost:3000/products', param).subscribe((products) => {
+        this.http.get('/products', param).subscribe((products) => {
             this.productsArray = Object.values(products);
         });
     }
