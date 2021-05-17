@@ -1135,7 +1135,7 @@ class PaymentComponent {
         let newArray = [];
         for (let i = 0; i < this.number; i++) {
             if (i % 2 == 0) {
-                newArray = this.productsArray[i];
+                newArray += this.productsArray[i];
             }
         }
         const body = JSON.stringify({
@@ -1146,10 +1146,6 @@ class PaymentComponent {
         });
         return this.http.post('/sales', body, { headers: { 'Content-Type': 'application/json' } }).toPromise().then(data => {
             console.log('venta exitosa');
-        })
-            .catch(err => {
-            console.log(Object.values(err));
-            this.router.navigate(['payment-component']);
         });
     }
     ngOnInit() {
@@ -1773,7 +1769,7 @@ function SalesComponent_div_18_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](sale_r1.sale_added_date.substring(0, 10));
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](sale_r1.Total);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"]("$", sale_r1.Total, "");
 } }
 class SalesComponent {
     constructor(http) {
