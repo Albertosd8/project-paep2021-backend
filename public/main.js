@@ -1140,7 +1140,7 @@ class PaymentComponent {
         let actual_date = year + '-' + month + '-' + day;
         for (let i = 0; i < this.number * 2; i++) {
             if (i % 2 == 0) {
-                newArray += this.productsArray[i];
+                newArray.push(this.productsArray[i]);
             }
         }
         const body = JSON.stringify({
@@ -1149,14 +1149,12 @@ class PaymentComponent {
             Total: this.total,
             sale_added_date: actual_date
         });
-        console.log(body);
-        /*
-        return this.http.post('/sales', body, {headers: {'Content-Type': 'application/json'}}).toPromise().then(data =>{
-          console.log('venta exitosa');
+        return this.http.post('/sales', body, { headers: { 'Content-Type': 'application/json' } }).toPromise().then(data => {
+            console.log('venta exitosa');
         }).catch(err => {
-          console.log(Object.values(err));
-          alert(Object.values(err)[7]);
-        });*/
+            console.log(Object.values(err));
+            alert(Object.values(err)[7]);
+        });
     }
     ngOnInit() {
         this.productsArray = [];
