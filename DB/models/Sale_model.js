@@ -4,8 +4,7 @@ const { mongo } = require('mongoose');
 let salesSchema = mongoose.Schema({
     user_email: {
         type: String,
-        required: true,
-        unique:true
+        required: true
     },
     products:{
         type: Array,
@@ -22,7 +21,8 @@ let salesSchema = mongoose.Schema({
     },
     sale_id:{
         type:Number,
-        required: true
+        required: true,
+        unique:true
     }
 })
 
