@@ -1138,24 +1138,25 @@ class PaymentComponent {
         let month = today.getMonth() + 1;
         let day = today.getDate();
         let actual_date = year + '-' + month + '-' + day;
-        for (let i = 0; i < this.number; i++) {
+        for (let i = 0; i < this.number * 2; i++) {
             if (i % 2 == 0) {
                 newArray += this.productsArray[i];
             }
         }
         const body = JSON.stringify({
-            user_email: sessionStorage.getItem("curren_user_account"),
+            user_email: sessionStorage.getItem("current_user_account"),
             products: newArray,
-            total: this.total,
+            Total: this.total,
             sale_added_date: actual_date
         });
-        return this.http.post('/sales', body, { headers: { 'Content-Type': 'application/json' } }).toPromise().then(data => {
-            console.log('venta exitosa');
+        console.log(body);
+        /*
+        return this.http.post('/sales', body, {headers: {'Content-Type': 'application/json'}}).toPromise().then(data =>{
+          console.log('venta exitosa');
         }).catch(err => {
-            console.log(Object.values(err));
-            alert(Object.values(err)[7]);
-        });
-        ;
+          console.log(Object.values(err));
+          alert(Object.values(err)[7]);
+        });*/
     }
     ngOnInit() {
         this.productsArray = [];
