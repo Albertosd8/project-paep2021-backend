@@ -1133,9 +1133,10 @@ class PaymentComponent {
     }
     registerSale() {
         let newArray = [];
-        let year = (new Date()).getFullYear();
-        let month = (new Date()).getMonth() + 1;
-        let day = (new Date()).getDate();
+        let today = new Date();
+        let year = today.getFullYear();
+        let month = today.getMonth() + 1;
+        let day = today.getDate();
         let actual_date = year + '-' + month + '-' + day;
         for (let i = 0; i < this.number; i++) {
             if (i % 2 == 0) {
@@ -1150,7 +1151,11 @@ class PaymentComponent {
         });
         return this.http.post('/sales', body, { headers: { 'Content-Type': 'application/json' } }).toPromise().then(data => {
             console.log('venta exitosa');
+        }).catch(err => {
+            console.log(Object.values(err));
+            alert(Object.values(err)[7]);
         });
+        ;
     }
     ngOnInit() {
         this.productsArray = [];
