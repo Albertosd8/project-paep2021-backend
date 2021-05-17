@@ -1133,6 +1133,10 @@ class PaymentComponent {
     }
     registerSale() {
         let newArray = [];
+        let year = (new Date()).getFullYear();
+        let month = (new Date()).getMonth() + 1;
+        let day = (new Date()).getDate();
+        let actual_date = year + '-' + month + '-' + day;
         for (let i = 0; i < this.number; i++) {
             if (i % 2 == 0) {
                 newArray += this.productsArray[i];
@@ -1142,7 +1146,7 @@ class PaymentComponent {
             user_email: sessionStorage.getItem("curren_user_account"),
             products: newArray,
             total: this.total,
-            sale_added_date: Date.now()
+            sale_added_date: actual_date
         });
         return this.http.post('/sales', body, { headers: { 'Content-Type': 'application/json' } }).toPromise().then(data => {
             console.log('venta exitosa');
