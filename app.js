@@ -36,7 +36,7 @@ const specs = swaggerJSDoc(options);
 //routes
 app.use('/users', userRoute);
 app.use('/products', productRoute);
-app.use('sales',saleRoute)
+app.use('/sales',saleRoute)
 app.use('/login',loginRoute);
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs));
 
