@@ -6,9 +6,8 @@ const { json } = require('express');
 const schema = Joi.object({
     user_email: Joi.string().required(), 
     products: Joi.array().required(), 
-    Total: Joi.string().email().required(), 
-    sale_added_date: Joi.date().required(), 
-    sale_id: Joi.number().required(),
+    Total: Joi.number().required(), 
+    sale_added_date: Joi.date().required()
 });
 
 // Obtain sales
@@ -110,9 +109,9 @@ router.post('/', async (req,res, next)=>{
     const result = schema.validate(req.body);
     if (result.error) return next(result.error.details[0].message);
 
-    let prod = await Sale.createSale(req.body);
-    if(prod){
-        res.status(201).send(prod)
+    let sale = await Sale.createSale(req.body);
+    if(sale){
+        res.status(201).send(sale)
         return;
     }else{ 
         res.status(400).send(JSON.stringify("error no se pudo crear venta"));
