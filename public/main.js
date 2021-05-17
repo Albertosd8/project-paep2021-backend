@@ -1130,6 +1130,27 @@ class PaymentComponent {
             this.router.navigate(['field-component']);
         }
     }
+    registerSale() {
+        let newArray = [];
+        for (let i = 0; i < this.number; i++) {
+            if (i % 2 == 0) {
+                newArray = this.productsArray[i];
+            }
+        }
+        const body = JSON.stringify({
+            user_email: sessionStorage.getItem("curren_user_account"),
+            products: newArray,
+            total: this.total,
+            sale_added_date: Date.now()
+        });
+        return this.http.post('/sales', body, { headers: { 'Content-Type': 'application/json' } }).toPromise().then(data => {
+            console.log('venta exitosa');
+        })
+            .catch(err => {
+            console.log(Object.values(err));
+            window.location.reload();
+        });
+    }
     ngOnInit() {
         this.productsArray = [];
         this.total = 0;
@@ -1304,7 +1325,7 @@ HomepageComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefine
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](5, "La tienda en linea del artesano");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "p");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](7, "Donde podras vender tus artesanias. Blanditiis maiores architecto laudantium explicabo. Commodi alias porro inventore consectetur rem at nobis dolorum tenetur libero numquam vero quisquam, repellat beatae accusantium.");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](7, "Donde podras vender tus artesanias, podras comprar productos locales y apoyar a tu comunidad ommodi alias porro inventore consectetur rem at nobis dolorum tenetur libero numquam vero quisquam, repellat beatae accusantium.");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](8, "div", 4);
@@ -1714,18 +1735,90 @@ DashboardComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefin
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SalesComponent", function() { return SalesComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "tk/3");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common */ "ofXK");
 
+
+
+function SalesComponent_div_18_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 5);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "p");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "div", 3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "p");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](7, "div", 3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](8, "p");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](9);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](10, "div", 3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](11, "p");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](12);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+} if (rf & 2) {
+    const sale_r1 = ctx.$implicit;
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](sale_r1.user_email);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](sale_r1.products);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](sale_r1.sale_added_date.substring(0, 10));
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](sale_r1.Total);
+} }
 class SalesComponent {
-    constructor() { }
+    constructor(http) {
+        this.http = http;
+    }
     ngOnInit() {
+        this.http.get('/users').subscribe((sales) => this.salesArray = sales);
     }
 }
-SalesComponent.ɵfac = function SalesComponent_Factory(t) { return new (t || SalesComponent)(); };
-SalesComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: SalesComponent, selectors: [["app-sales"]], decls: 2, vars: 0, template: function SalesComponent_Template(rf, ctx) { if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "p");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "sales works!");
+SalesComponent.ɵfac = function SalesComponent_Factory(t) { return new (t || SalesComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"])); };
+SalesComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: SalesComponent, selectors: [["app-sales"]], decls: 19, vars: 1, consts: [[1, "container", "mt-4", "p-0"], [1, "container", "mb-4"], [1, "row", "header-form-text"], [1, "col-3"], ["class", "row sale-form-text", 4, "ngFor", "ngForOf"], [1, "row", "sale-form-text"]], template: function SalesComponent_Template(rf, ctx) { if (rf & 1) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "h3");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2, "Sales");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-    } }, styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzYWxlcy5jb21wb25lbnQuY3NzIn0= */"] });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](3, "hr");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "div", 1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "div", 2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "div", 3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](7, "p");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](8, "User email");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](9, "div", 3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](10, "p");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](11, "products");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](12, "div", 3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](13, "p");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](14, "Date");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](15, "div", 3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](16, "p");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](17, "Total");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](18, SalesComponent_div_18_Template, 13, 4, "div", 4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    } if (rf & 2) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](18);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngForOf", ctx.salesArray);
+    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_2__["NgForOf"]], styles: [".header-form-text[_ngcontent-%COMP%]{\n      border-top-left-radius: 5px;\n      border-top-right-radius: 5px;\n      background-color: #D2B48C; \n      font-weight: bold;\n  }\n  \n  p[_ngcontent-%COMP%]{\n      text-align: center;\n  }\n  \n  .sale-form-text[_ngcontent-%COMP%]{\n      background-color: white;\n  }\n  \n  .header-form-text[_ngcontent-%COMP%]   p[_ngcontent-%COMP%]{\n      padding-top: 1em;\n  }\n  \n  .sale-form-text[_ngcontent-%COMP%]   p[_ngcontent-%COMP%]{\n      padding-top: 1em;\n  }\n  \n  .sale-form-text[_ngcontent-%COMP%]   div[_ngcontent-%COMP%]{\n      border-style: solid; border-width: 0.8px;\n      border-color: gainsboro;\n  }\n  \n  .sale-form-text[_ngcontent-%COMP%]   div[_ngcontent-%COMP%]:last-child, .header-form-text[_ngcontent-%COMP%]   div[_ngcontent-%COMP%]:last-child, .sale-form-text[_ngcontent-%COMP%]   div[_ngcontent-%COMP%]:nth-child(2), .header-form-text[_ngcontent-%COMP%]   div[_ngcontent-%COMP%]:nth-child(2){\n      text-align: center;\n  }\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNhbGVzLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7TUFDTSwyQkFBMkI7TUFDM0IsNEJBQTRCO01BQzVCLHlCQUF5QjtNQUN6QixpQkFBaUI7RUFDckI7O0VBRUE7TUFDSSxrQkFBa0I7RUFDdEI7O0VBRUE7TUFDSSx1QkFBdUI7RUFDM0I7O0VBRUE7TUFDSSxnQkFBZ0I7RUFDcEI7O0VBQ0E7TUFDSSxnQkFBZ0I7RUFDcEI7O0VBRUE7TUFDSSxtQkFBbUIsRUFBRSxtQkFBbUI7TUFDeEMsdUJBQXVCO0VBQzNCOztFQUVBOztNQUVJLGtCQUFrQjtFQUN0QiIsImZpbGUiOiJzYWxlcy5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmhlYWRlci1mb3JtLXRleHR7XG4gICAgICBib3JkZXItdG9wLWxlZnQtcmFkaXVzOiA1cHg7XG4gICAgICBib3JkZXItdG9wLXJpZ2h0LXJhZGl1czogNXB4O1xuICAgICAgYmFja2dyb3VuZC1jb2xvcjogI0QyQjQ4QzsgXG4gICAgICBmb250LXdlaWdodDogYm9sZDtcbiAgfVxuICBcbiAgcHtcbiAgICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgfVxuICBcbiAgLnNhbGUtZm9ybS10ZXh0e1xuICAgICAgYmFja2dyb3VuZC1jb2xvcjogd2hpdGU7XG4gIH1cbiAgXG4gIC5oZWFkZXItZm9ybS10ZXh0IHB7XG4gICAgICBwYWRkaW5nLXRvcDogMWVtO1xuICB9XG4gIC5zYWxlLWZvcm0tdGV4dCBwe1xuICAgICAgcGFkZGluZy10b3A6IDFlbTtcbiAgfVxuICBcbiAgLnNhbGUtZm9ybS10ZXh0IGRpdntcbiAgICAgIGJvcmRlci1zdHlsZTogc29saWQ7IGJvcmRlci13aWR0aDogMC44cHg7XG4gICAgICBib3JkZXItY29sb3I6IGdhaW5zYm9ybztcbiAgfVxuICBcbiAgLnNhbGUtZm9ybS10ZXh0IGRpdjpsYXN0LWNoaWxkLCAuaGVhZGVyLWZvcm0tdGV4dCBkaXY6bGFzdC1jaGlsZCwgXG4gIC5zYWxlLWZvcm0tdGV4dCBkaXY6bnRoLWNoaWxkKDIpLCAuaGVhZGVyLWZvcm0tdGV4dCBkaXY6bnRoLWNoaWxkKDIpe1xuICAgICAgdGV4dC1hbGlnbjogY2VudGVyO1xuICB9XG4gIFxuIl19 */"] });
 
 
 /***/ }),
@@ -1768,7 +1861,7 @@ class AppComponent {
     }
 }
 AppComponent.ɵfac = function AppComponent_Factory(t) { return new (t || AppComponent)(); };
-AppComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineComponent"]({ type: AppComponent, selectors: [["app-root"]], features: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵProvidersFeature"]([_shared_product_service__WEBPACK_IMPORTED_MODULE_0__["ProductService"]])], decls: 52, vars: 0, consts: [["id", "nav-bar-id", 1, "navbar", "navbar-expand-sm", "navbar-dark", "navbar-custom"], ["id", "nav-bar-logo", "routerLink", "/", "routerLinkActive", "active", 1, "navbar-brand", "font-weight-bold", "ml-4"], [1, "sr-only"], [1, "container", "m-0"], [1, "navbar-nav", "font-weight-light"], [1, "nav-item", "active"], ["routerLink", "/products-component", "routerLinkActive", "active", 1, "nav-link"], ["routerLink", "/aboutus-component", "routerLinkActive", "active", 1, "nav-link"], ["id", "nav_icons", 1, "container", "justify-content-around", "w-25"], ["routerLink", "/field-component", "routerLinkActive", "active"], [1, "fas", "fa-user"], ["routerLink", "/payment-component", "routerLinkActive", "active"], [1, "fa", "fa-shopping-cart"], ["id", "collapseExample", 1, "collapse"], [1, "card", "card-body", "border-0"], [1, "row"], [1, "col-11"], ["type", "text", "placeholder", "Buscar producto...", "aria-label", "Search", 1, "form-control"], ["id", "search_nav_bar", 1, "col-1", "p-0", "d-flex", "justify-content-left"], ["href", "#"], [1, "fa", "fa-search", "align-bottom", "fa-lg"], ["id", "nav-bar-id-admin", 1, "navbar", "navbar-expand-sm", "navbar-dark", "navbar-custom-admin", 2, "display", "none"], ["id", "nav-bar-logo", "routerLink", "/prodadmin-component", "routerLinkActive", "active", 1, "navbar-brand", "font-weight-bold", "ml-4"], [1, "navbar-nav", "font-weight"], ["routerLink", "/dashboard-component", "routerLinkActive", "active", 1, "nav-link"], ["routerLink", "/users-component", "routerLinkActive", "active", 1, "nav-link"], ["routerLink", "/prodadmin-component", "routerLinkActive", "active", 1, "nav-link"], [1, "container", "justify-content-around", "w-25", "nav_icons"]], template: function AppComponent_Template(rf, ctx) { if (rf & 1) {
+AppComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineComponent"]({ type: AppComponent, selectors: [["app-root"]], features: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵProvidersFeature"]([_shared_product_service__WEBPACK_IMPORTED_MODULE_0__["ProductService"]])], decls: 55, vars: 0, consts: [["id", "nav-bar-id", 1, "navbar", "navbar-expand-sm", "navbar-dark", "navbar-custom"], ["id", "nav-bar-logo", "routerLink", "/", "routerLinkActive", "active", 1, "navbar-brand", "font-weight-bold", "ml-4"], [1, "sr-only"], [1, "container", "m-0"], [1, "navbar-nav", "font-weight-light"], [1, "nav-item", "active"], ["routerLink", "/products-component", "routerLinkActive", "active", 1, "nav-link"], ["routerLink", "/aboutus-component", "routerLinkActive", "active", 1, "nav-link"], ["id", "nav_icons", 1, "container", "justify-content-around", "w-25"], ["routerLink", "/field-component", "routerLinkActive", "active"], [1, "fas", "fa-user"], ["routerLink", "/payment-component", "routerLinkActive", "active"], [1, "fa", "fa-shopping-cart"], ["id", "collapseExample", 1, "collapse"], [1, "card", "card-body", "border-0"], [1, "row"], [1, "col-11"], ["type", "text", "placeholder", "Buscar producto...", "aria-label", "Search", 1, "form-control"], ["id", "search_nav_bar", 1, "col-1", "p-0", "d-flex", "justify-content-left"], ["href", "#"], [1, "fa", "fa-search", "align-bottom", "fa-lg"], ["id", "nav-bar-id-admin", 1, "navbar", "navbar-expand-sm", "navbar-dark", "navbar-custom-admin", 2, "display", "none"], ["id", "nav-bar-logo", "routerLink", "/prodadmin-component", "routerLinkActive", "active", 1, "navbar-brand", "font-weight-bold", "ml-4"], [1, "navbar-nav", "font-weight"], ["routerLink", "/dashboard-component", "routerLinkActive", "active", 1, "nav-link"], ["routerLink", "/users-component", "routerLinkActive", "active", 1, "nav-link"], ["routerLink", "/prodadmin-component", "routerLinkActive", "active", 1, "nav-link"], ["routerLink", "/sales-component", "routerLinkActive", "active", 1, "nav-link"], [1, "container", "justify-content-around", "w-25", "nav_icons"]], template: function AppComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "nav", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](1, "a", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](2, "ARTISAN");
@@ -1846,15 +1939,20 @@ AppComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineCompo
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](47, "Products");
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](48, "li", 5);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](49, "a", 27);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](50, "Sales");
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](48, "div", 27);
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](49, "a", 9);
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](50, "i", 10);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](51, "div", 28);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](52, "a", 9);
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](53, "i", 10);
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](51, "router-outlet");
+        _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](54, "router-outlet");
     } }, directives: [_angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterLinkWithHref"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterLinkActive"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterOutlet"]], styles: [".navbar-custom[_ngcontent-%COMP%]{\n    background-color:#8f7e67;\n}\n\n#nav_icons[_ngcontent-%COMP%] > a[_ngcontent-%COMP%] > i[_ngcontent-%COMP%], .nav_icons[_ngcontent-%COMP%] > a[_ngcontent-%COMP%] > i[_ngcontent-%COMP%]{\n    color:white;\n}\n\n.navbar-custom-admin[_ngcontent-%COMP%]{\n    background-color: rgb(48, 50, 58);\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImFwcC5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0lBQ0ksd0JBQXdCO0FBQzVCOztBQUVBO0lBQ0ksV0FBVztBQUNmOztBQUVBO0lBQ0ksaUNBQWlDO0FBQ3JDIiwiZmlsZSI6ImFwcC5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLm5hdmJhci1jdXN0b217XG4gICAgYmFja2dyb3VuZC1jb2xvcjojOGY3ZTY3O1xufVxuXG4jbmF2X2ljb25zPmE+aSwgLm5hdl9pY29ucz5hPml7XG4gICAgY29sb3I6d2hpdGU7XG59XG5cbi5uYXZiYXItY3VzdG9tLWFkbWlue1xuICAgIGJhY2tncm91bmQtY29sb3I6IHJnYig0OCwgNTAsIDU4KTtcbn1cbiJdfQ== */"] });
 
 
