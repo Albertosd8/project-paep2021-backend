@@ -1119,6 +1119,7 @@ class PaymentComponent {
     }
     completeTransactionShoppingCart() {
         if (sessionStorage.getItem("current_user_account")) {
+            this.registerSale();
             alert('Compra realizada exitosa por ' + sessionStorage.getItem("current_user_account"));
             this.router.navigate(['products-component']);
             sessionStorage.removeItem("shoppingcart_products");
