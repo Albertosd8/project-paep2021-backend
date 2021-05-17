@@ -1149,7 +1149,7 @@ class PaymentComponent {
         })
             .catch(err => {
             console.log(Object.values(err));
-            window.location.reload();
+            this.router.navigate(['payment-component']);
         });
     }
     ngOnInit() {

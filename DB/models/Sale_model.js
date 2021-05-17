@@ -38,5 +38,5 @@ salesSchema.statics.createSale = (saleData)=>{
     return NewSale.save();
 };
 
-const Sale = mongoose.model('sale',salesSchema); //modelo de pedidos
+const Sale = mongoose.model('sales',salesSchema); //modelo de pedidos
 module.exports = Sale;
