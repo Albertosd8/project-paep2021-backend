@@ -1779,7 +1779,7 @@ class SalesComponent {
         this.http = http;
     }
     ngOnInit() {
-        this.http.get('/users').subscribe((sales) => this.salesArray = sales);
+        this.http.get('/sales').subscribe((sales) => this.salesArray = sales);
     }
 }
 SalesComponent.ɵfac = function SalesComponent_Factory(t) { return new (t || SalesComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"])); };
